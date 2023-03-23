@@ -9,7 +9,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
 const tempelatePath = path.join(__dirname, '../tempelates')
-const publicPath = path.join(__dirname, '../public')
+const publicPath = path.join(__dirname, '../CSSS')
 console.log(publicPath);
 
 app.set('view engine', 'hbs')

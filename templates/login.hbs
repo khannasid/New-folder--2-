@@ -67,8 +67,8 @@ form{
             <tr>
                 <td>{{domain}}</td>
                 <td>{{wordcount}}</td>
-                <td>{{weblink}}</td>
-                <td>{{medialink}}</td>
+                <td>{{#each weblink}} <li>{{this}} </li>{{/each}}</td>
+                <td>{{#each medialink}} <li>{{this}} </li>{{/each}}</td>
             </tr>
         </tbody>
     </table>

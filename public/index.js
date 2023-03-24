@@ -40,7 +40,6 @@ app.post("/login", async (req, res) => {
         const uniqueUrlArray = [...new Set(urlArray)];
         return uniqueUrlArray;
       });
-      console.log(weblink)
       const data = {
         domain: req.body.url,
         wordcount: count,

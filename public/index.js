@@ -26,15 +26,17 @@ app.post("/login", async (req, res) => {
   try {
     const check = await LogInCollection.findOne({ domain: req.body.url });
     if (check === null) {
+      console.log("in Check null ! ");
       const browserFetcheer = puppeteer.createBrowserFetcher();
       let revisionInfo = await browserFetcheer.download('1095492');
-
+      console.log("in Check null 11 ! ");
       const browser = await puppeteer.launch({
         executablePath: revisionInfo.executablePath,
           ignoreDefaultArgs: ['--disable-extensions'],
           headless: true,
           args: ['--no-sandbox', "--disabled-setupid-sandbox"]
       });
+      console.log("in Check null 22 ! ");
       const page = await browser.newPage();
       await page.goto(req.body.url);
       const extractedText = await page.$eval("*", (el) => el.innerText);

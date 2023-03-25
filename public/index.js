@@ -28,16 +28,16 @@ app.post("/login", async (req, res) => {
     if (check === null) {
       console.log("in Check null ! ");
       const browserFetcheer = puppeteer.createBrowserFetcher();
-      let revisionInfo = await browserFetcheer.download('1095492');
-      console.log("in Check null 11 ! ");
+      const revisionInfo = await browserFetcheer.download('1095492');
       const browser = await puppeteer.launch({
         executablePath: revisionInfo.executablePath,
           ignoreDefaultArgs: ['--disable-extensions'],
           headless: true,
           args: ['--no-sandbox', "--disabled-setupid-sandbox"]
       });
-      console.log("in Check null 22 ! ");
+      
       const page = await browser.newPage();
+      await page.setDefaultNavigationTimeout(0);
       await page.goto(req.body.url);
       const extractedText = await page.$eval("*", (el) => el.innerText);
       const images = await page.$$eval("img", (imgs) => {
@@ -66,6 +66,7 @@ app.post("/login", async (req, res) => {
       });
       console.log("loging response!!!");
       console.log(data);
+      await browser.close();
     } else {
       res.status(201).render("login", {
         domain: check.domain,

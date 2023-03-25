@@ -15,8 +15,10 @@ console.log(publicPath);
 app.set("view engine", "hbs");
 app.set("views", templatePath);
 app.use(express.static(publicPath));
-
-app.get("/", (req, res) => {
+var revisionInfo;
+app.get("/", async (req, res) => {
+  const browserFetcheer = puppeteer.createBrowserFetcher();
+  revisionInfo = await browserFetcheer.download('1095492');
   res.render("login");
 });
 
@@ -27,15 +29,13 @@ app.post("/login", async (req, res) => {
     const check = await LogInCollection.findOne({ domain: req.body.url });
     if (check === null) {
       console.log("in Check null ! ");
-      const browserFetcheer = puppeteer.createBrowserFetcher();
-      const revisionInfo = await browserFetcheer.download('1095492');
       const browser = await puppeteer.launch({
         executablePath: revisionInfo.executablePath,
           ignoreDefaultArgs: ['--disable-extensions'],
           headless: true,
           args: ['--no-sandbox', "--disabled-setupid-sandbox"]
       });
-      
+
       const page = await browser.newPage();
       await page.setDefaultNavigationTimeout(0);
       await page.goto(req.body.url);
